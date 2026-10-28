@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: contexa-studio-demo
+    runtime: docker
+    plan: free
+    region: singapore
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: .
+    healthCheckPath: /api/health
+    envVars:
+      - key: APP_ENV
+        value: demo
+      - key: SECRET_KEY
+        generateValue: true
+      - key: OLLAMA_ENABLED
+        value: "false"
+      - key: AI_VERIFICATION_ENABLED
+        value: "false"
+      - key: WORKSPACE_ID
+        value: ws-contexa-demo
+      - key: MAX_UPLOAD_MB
+        value: "10"
+      - key: STORAGE_DIR
+        value: /tmp/contexa-storage

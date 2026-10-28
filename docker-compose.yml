@@ -1,0 +1,49 @@
+services:
+  db:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_DB: contexa
+      POSTGRES_USER: contexa
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-change-this-local-password}
+    ports: ["5432:5432"]
+    volumes: ["contexa-pgdata:/var/lib/postgresql/data"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U contexa -d contexa"]
+      interval: 5s
+      timeout: 5s
+      retries: 15
+  backend:
+    build: ./backend
+    environment:
+      DATABASE_URL: postgresql+psycopg://contexa:${POSTGRES_PASSWORD:-change-this-local-password}@db:5432/contexa
+      SECRET_KEY: ${SECRET_KEY:-local-compose-secret-change-before-deployment}
+      APP_ENV: development
+      WORKSPACE_ID: ws-contexa-demo
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      ANTHROPIC_MODEL: ${ANTHROPIC_MODEL:-claude-sonnet-4-6}
+      AI_VERIFICATION_ENABLED: ${AI_VERIFICATION_ENABLED:-true}
+      OLLAMA_ENABLED: ${OLLAMA_ENABLED:-true}
+      OLLAMA_BASE_URL: ${OLLAMA_BASE_URL:-http://host.docker.internal:11434}
+      OLLAMA_MODEL: ${OLLAMA_MODEL:-nemotron-mini:4b}
+      OLLAMA_REQUEST_TIMEOUT: ${OLLAMA_REQUEST_TIMEOUT:-60}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ports: ["8000:8000"]
+    volumes: ["contexa-uploads:/app/storage"]
+    depends_on:
+      db: { condition: service_healthy }
+  frontend:
+    image: node:22-alpine
+    working_dir: /workspace
+    command: sh -c "npm install --no-audit --no-fund && npm run dev -- --host 0.0.0.0"
+    environment:
+      VITE_API_URL: http://localhost:8000
+    ports: ["5173:5173"]
+    volumes:
+      - ./frontend:/workspace
+      - contexa-node-modules:/workspace/node_modules
+    depends_on: [backend]
+volumes:
+  contexa-pgdata:
+  contexa-uploads:
+  contexa-node-modules:

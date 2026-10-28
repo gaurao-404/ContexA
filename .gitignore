@@ -1,0 +1,11 @@
+.env
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+backend/contexa.db
+backend/storage/*
+!backend/storage/.gitkeep
+frontend/node_modules/
+frontend/dist/
+.DS_Store
