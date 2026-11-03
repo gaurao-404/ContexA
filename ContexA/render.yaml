@@ -1,0 +1,184 @@
+# Production Blueprint. This profile provisions paid-capable resources because:
+# - Render Free web services cannot send outbound SMTP on 25/465/587.
+# - Render Free Postgres expires after 30 days.
+# - ClamAV needs its own private service and memory.
+# Configure SMTP + a private S3/R2 bucket in the Render Dashboard before launch.
+services:
+  - type: pserv
+    name: contexa-clamav
+    runtime: image
+    image:
+      url: docker.io/clamav/clamav:stable
+    plan: standard
+    region: singapore
+    envVars:
+      - key: CLAMAV_NO_MILTERD
+        value: "true"
+      - key: CLAMD_STARTUP_TIMEOUT
+        value: "1800"
+
+  - type: web
+    name: contexa-studio
+    runtime: docker
+    plan: standard
+    region: singapore
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: .
+    healthCheckPath: /api/health
+    # VITE_* entries below are forwarded to Docker build args by Render.
+    maxShutdownDelaySeconds: 60
+    envVars:
+      - key: VITE_SUBMISSION_MODE
+        value: "false"
+      - key: VITE_AUTH_MODE
+        value: supabase
+      - key: VITE_SUPABASE_URL
+        value: https://amxhfdbsvlzhyogwnxaw.supabase.co
+      - key: VITE_SUPABASE_PUBLISHABLE_KEY
+        value: sb_publishable_IXCe0kqC14HJcCVV4GvmMw_DCx9XTeY
+      - key: APP_ENV
+        value: production
+      - key: ALLOW_SIGNUP
+        value: "false"
+      - key: EMAIL_VERIFICATION_REQUIRED
+        value: "true"
+      - key: PUBLIC_APP_URL
+        sync: false
+      - key: ALLOWED_ORIGINS
+        sync: false
+      - key: CLOUDFLARE_EDGE_ENABLED
+        value: "false"
+      - key: PUBLIC_API_URL
+        sync: false
+      - key: CLOUDFLARE_ORIGIN_SHARED_SECRET
+        sync: false
+      - key: TRUST_PASSPORT_SIGNING_KEY
+        sync: false
+      - key: AUTH_MODE
+        value: supabase
+      - key: SUPABASE_URL
+        value: https://amxhfdbsvlzhyogwnxaw.supabase.co
+      - key: SUPABASE_JWT_ISSUER
+        value: https://amxhfdbsvlzhyogwnxaw.supabase.co/auth/v1
+      - key: SUPABASE_JWKS_URL
+        value: https://amxhfdbsvlzhyogwnxaw.supabase.co/auth/v1/.well-known/jwks.json
+      - key: SUPABASE_JWT_AUDIENCE
+        value: authenticated
+      - key: SUPABASE_PUBLISHABLE_KEY
+        sync: false
+      - key: SUPABASE_REQUIRE_AAL2
+        value: "false"
+      - key: SUPABASE_SESSION_CHECK_REQUIRED
+        value: "true"
+      - key: SUPABASE_SESSION_DATABASE_URL
+        sync: false
+      - key: TRUST_SIGNING_PROVIDER
+        value: local_hmac
+      - key: TRUST_KMS_KEY_ID
+        sync: false
+      - key: TRUST_KMS_SIGNING_ALGORITHM
+        value: RSASSA_PSS_SHA_256
+      - key: AWS_REGION
+        value: ap-south-1
+      - key: EVIDENCE_ARCHIVE_BUCKET
+        sync: false
+      - key: EVIDENCE_ARCHIVE_PREFIX
+        value: contexa-evidence
+      - key: EVIDENCE_ARCHIVE_RETENTION_DAYS
+        value: "0"
+      - key: EVIDENCE_ARCHIVE_MODE
+        value: GOVERNANCE
+      - key: EVIDENCE_ARCHIVE_SSE
+        value: aws:kms
+      - key: EVIDENCE_ARCHIVE_KMS_KEY_ID
+        sync: false
+      - key: TRUST_ARCHIVE_REQUIRED
+        value: "false"
+      - key: TRUTH_DRIFT_CRON_TOKEN
+        sync: false
+      - key: TURNSTILE_SECRET_KEY
+        sync: false
+      - key: TURNSTILE_EXPECTED_HOSTNAME
+        sync: false
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: ANTHROPIC_MODEL
+        value: claude-sonnet-4-6
+      - key: ANTHROPIC_BASE_URL
+        sync: false
+      - key: CLOUDFLARE_AI_GATEWAY_TOKEN
+        sync: false
+      - key: SMTP_HOST
+        sync: false
+      - key: SMTP_PORT
+        value: "587"
+      - key: SMTP_USERNAME
+        sync: false
+      - key: SMTP_PASSWORD
+        sync: false
+      - key: SMTP_FROM_EMAIL
+        sync: false
+      - key: SMTP_FROM_NAME
+        value: ContexA Studio
+      - key: SMTP_USE_TLS
+        value: "true"
+      - key: SMTP_USE_SSL
+        value: "false"
+      - key: SIGNUP_MAX_PER_IP
+        value: "20"
+      - key: LOGIN_MAX_FAILURES
+        value: "8"
+      - key: LOGIN_LOCK_MINUTES
+        value: "15"
+      - key: ENABLE_POSTGRES_RLS
+        value: "true"
+      - key: SECRET_KEY
+        generateValue: true
+      # Supabase PostgreSQL is the primary application database. Configure this
+      # from the Supabase dashboard using the contexa_app role's pooler URI.
+      # Keep the password in Render's secret store; never commit it.
+      - key: DATABASE_URL
+        sync: false
+      - key: OLLAMA_ENABLED
+        value: "false"
+      - key: AI_VERIFICATION_ENABLED
+        value: "false"
+      - key: MAX_UPLOAD_MB
+        value: "10"
+      - key: UPLOAD_MAX_PER_USER
+        value: "40"
+      - key: UPLOAD_WINDOW_MINUTES
+        value: "60"
+      - key: SECURITY_HEADERS_ENABLED
+        value: "true"
+      - key: UPLOAD_SCAN_MODE
+        value: clamd
+      - key: REQUIRE_MALWARE_SCAN
+        value: "true"
+      - key: CLAMD_HOST
+        fromService:
+          name: contexa-clamav
+          type: pserv
+          property: host
+      - key: CLAMD_PORT
+        value: "3310"
+      - key: STORE_UPLOADS_IN_DATABASE
+        value: "false"
+      - key: REQUIRE_PRIVATE_OBJECT_STORAGE
+        value: "true"
+      - key: S3_BUCKET
+        sync: false
+      - key: S3_REGION
+        sync: false
+      - key: S3_ENDPOINT_URL
+        sync: false
+      - key: S3_ACCESS_KEY_ID
+        sync: false
+      - key: S3_SECRET_ACCESS_KEY
+        sync: false
+      - key: S3_PREFIX
+        value: contexa
+      - key: S3_FORCE_PATH_STYLE
+        value: "false"
+      - key: S3_SERVER_SIDE_ENCRYPTION
+        sync: false

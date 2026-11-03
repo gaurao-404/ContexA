@@ -1,0 +1,46 @@
+# Local secrets and environment overrides
+.env
+.env.*
+!.env.example
+**/.env.*
+!**/.env.example
+
+# Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Local databases, uploads and runtime state
+*.db
+*.sqlite
+*.sqlite3
+backend/storage/*
+!backend/storage/.gitkeep
+
+# Frontend build outputs and package installs (source is tracked)
+frontend/node_modules/
+frontend/dist/
+cloudflare/worker/node_modules/
+cloudflare/worker/.wrangler/
+cloudflare/worker/.dev.vars
+
+# Terraform local state, vars and plans
+**/.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+*.tfvars.json
+*.plan
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# TypeScript build metadata
+frontend/*.tsbuildinfo

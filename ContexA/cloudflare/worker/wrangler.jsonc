@@ -1,0 +1,26 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "contexa-edge",
+  "main": "src/index.js",
+  "compatibility_date": "2026-10-31",
+  "workers_dev": true,
+  "secrets": { "required": ["ORIGIN_SHARED_SECRET", "TRUTH_DRIFT_CRON_TOKEN"] },
+  "triggers": { "crons": ["0 */6 * * *"] },
+  "observability": { "enabled": true },
+  "vars": {
+    "ALLOWED_ORIGINS": "https://contexa-studio.pages.dev,http://localhost:5173",
+    "EDGE_VERSION": "1.1.0"
+  },
+  "ratelimits": [
+    {
+      "name": "AUTH_LIMITER",
+      "namespace_id": "71001",
+      "simple": { "limit": 15, "period": 60 }
+    },
+    {
+      "name": "UPLOAD_LIMITER",
+      "namespace_id": "71002",
+      "simple": { "limit": 20, "period": 60 }
+    }
+  ]
+}

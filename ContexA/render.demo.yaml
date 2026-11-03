@@ -1,0 +1,52 @@
+# Temporary judge/demo Blueprint. Do not use for real customer data or public account onboarding.
+# Render Free web services cannot send SMTP; Free Postgres expires after 30 days.
+services:
+  - type: web
+    name: contexa-studio-demo
+    runtime: docker
+    plan: free
+    region: singapore
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: .
+    healthCheckPath: /api/health
+    envVars:
+      # Build the UI against the same-origin FastAPI API and show the seeded demo entry path.
+      - key: VITE_AUTH_MODE
+        value: local
+      - key: VITE_SUBMISSION_MODE
+        value: "true"
+      - key: APP_ENV
+        value: demo
+      - key: ALLOW_SIGNUP
+        value: "false"
+      - key: EMAIL_VERIFICATION_REQUIRED
+        value: "false"
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DATABASE_URL
+        fromDatabase:
+          name: contexa-studio-demo-db
+          property: connectionString
+      - key: ENABLE_POSTGRES_RLS
+        value: "true"
+      - key: OLLAMA_ENABLED
+        value: "false"
+      - key: AI_VERIFICATION_ENABLED
+        value: "false"
+      - key: UPLOAD_SCAN_MODE
+        value: disabled
+      - key: STORE_UPLOADS_IN_DATABASE
+        value: "true"
+      - key: REQUIRE_PRIVATE_OBJECT_STORAGE
+        value: "false"
+      - key: REQUIRE_MALWARE_SCAN
+        value: "false"
+      - key: MAX_UPLOAD_MB
+        value: "10"
+databases:
+  - name: contexa-studio-demo-db
+    plan: free
+    region: singapore
+    databaseName: contexa_demo
+    user: contexa_demo
+    postgresMajorVersion: "16"

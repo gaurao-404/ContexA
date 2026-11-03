@@ -1,0 +1,4 @@
+case_code,title,content_text,expected_rule_codes,category
+claim-001,Unsupported superlative,This is the fastest platform in the country.,CLM-204|LGL-002,claim
+price-001,Outdated price reference,The Pro plan costs ₹49 999 per month.,PRC-002,pricing
+clean-001,Compliant control copy,The team shared the approved campaign calendar.,,control

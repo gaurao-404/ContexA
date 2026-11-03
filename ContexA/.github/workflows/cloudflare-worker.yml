@@ -1,0 +1,63 @@
+name: Deploy Cloudflare API Worker
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main, master]
+    paths:
+      - 'cloudflare/worker/**'
+      - '.github/workflows/cloudflare-worker.yml'
+
+jobs:
+  validate-and-deploy:
+    runs-on: ubuntu-latest
+    if: ${{ vars.ENABLE_CLOUDFLARE_WORKER_DEPLOY == 'true' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Validate Worker configuration
+        shell: bash
+        env:
+          API_ORIGIN: ${{ vars.API_ORIGIN }}
+          ALLOWED_ORIGINS: ${{ vars.ALLOWED_ORIGINS }}
+          ORIGIN_SHARED_SECRET: ${{ secrets.ORIGIN_SHARED_SECRET }}
+          TRUTH_DRIFT_CRON_TOKEN: ${{ secrets.TRUTH_DRIFT_CRON_TOKEN }}
+        run: |
+          set -euo pipefail
+          test -n "$API_ORIGIN" || { echo "Missing repository variable API_ORIGIN"; exit 1; }
+          case "$API_ORIGIN" in https://*) ;; *) echo "API_ORIGIN must use HTTPS"; exit 1 ;; esac
+          test -n "$ALLOWED_ORIGINS" || { echo "Missing repository variable ALLOWED_ORIGINS"; exit 1; }
+          case "$ALLOWED_ORIGINS" in *localhost*|*127.0.0.1*) echo "Production ALLOWED_ORIGINS must not include localhost"; exit 1 ;; esac
+          test -n "$ORIGIN_SHARED_SECRET" || { echo "Missing repository secret ORIGIN_SHARED_SECRET"; exit 1; }
+          test -n "$TRUTH_DRIFT_CRON_TOKEN" || { echo "Missing repository secret TRUTH_DRIFT_CRON_TOKEN"; exit 1; }
+          node --check src/index.js
+        working-directory: cloudflare/worker
+      - name: Create temporary Worker secrets file
+        shell: bash
+        env:
+          ORIGIN_SHARED_SECRET: ${{ secrets.ORIGIN_SHARED_SECRET }}
+          TRUTH_DRIFT_CRON_TOKEN: ${{ secrets.TRUTH_DRIFT_CRON_TOKEN }}
+        run: |
+          set -euo pipefail
+          umask 077
+          SECRETS_FILE="$RUNNER_TEMP/contexa-worker-secrets.json"
+          node -e 'const fs=require("node:fs"); fs.writeFileSync(process.argv[1], JSON.stringify({ORIGIN_SHARED_SECRET:process.env.ORIGIN_SHARED_SECRET,TRUTH_DRIFT_CRON_TOKEN:process.env.TRUTH_DRIFT_CRON_TOKEN}), {mode:0o600});' "$SECRETS_FILE"
+          echo "SECRETS_FILE=$SECRETS_FILE" >> "$GITHUB_ENV"
+      - name: Deploy Worker
+        working-directory: cloudflare/worker
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          API_ORIGIN: ${{ vars.API_ORIGIN }}
+          ALLOWED_ORIGINS: ${{ vars.ALLOWED_ORIGINS }}
+        run: |
+          set -euo pipefail
+          trap 'rm -f "$SECRETS_FILE"' EXIT
+          test -n "$CLOUDFLARE_API_TOKEN"
+          test -n "$CLOUDFLARE_ACCOUNT_ID"
+          npx --yes wrangler@4 deploy \
+            --var "API_ORIGIN:${API_ORIGIN}" \
+            --var "ALLOWED_ORIGINS:${ALLOWED_ORIGINS}" \
+            --secrets-file "$SECRETS_FILE"

@@ -1,0 +1,348 @@
+/* ==========================================================================
+   CONTEXA INTERFACE STYLES
+   Eight deliberate visual systems. Loaded last; each system changes
+   structure, typography, surfaces and component treatment—not just colour.
+   ========================================================================== */
+
+/* Shared style-picker layout */
+.style-options {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)) !important;
+  gap: 14px !important;
+}
+.style-options .theme-option {
+  min-height: 158px !important;
+  padding: 20px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  gap: 10px !important;
+  text-align: left !important;
+  position: relative !important;
+  transform: none !important;
+}
+.style-options .style-desc { white-space: normal !important; line-height: 1.55 !important; font-size: 12px !important; }
+.style-options .theme-swatches { display: flex !important; gap: 4px !important; }
+.style-options .theme-swatches i { width: 30px !important; height: 18px !important; display: block !important; border-radius: 3px !important; }
+.style-toggle { flex-wrap: wrap !important; }
+
+/* --------------------------------------------------------------------------
+   1. MINIMAL — flat, quiet, hairline-ruled productivity interface
+   -------------------------------------------------------------------------- */
+html[data-style="minimal"] {
+  --bg: #fafaf9; --bg-alt: #f4f4f3; --sidebar: #ffffff; --panel: #ffffff;
+  --panel-2: #fafaf9; --panel-3: #f4f4f3; --border: #e4e4e1; --border-soft: #eeeeec;
+  --text: #18181b; --muted: #6b6b70; --subtle: #8b8b90; --teal: #18181b;
+  --accent-bright: #18181b; --red: #c2321f; --amber: #a16207; --blue: #245ed6;
+  --purple: #6d28d9; --green: #15803d; --style-radius: 8px; --style-shadow: none;
+  --style-font: Inter, "Helvetica Neue", Arial, sans-serif; color-scheme: light;
+}
+html[data-style="minimal"] body,
+html[data-style="minimal"] .app-shell,
+html[data-style="minimal"] .content-scroll { background: #fafaf9 !important; color: #18181b !important; }
+html[data-style="minimal"] body::before, html[data-style="minimal"] body::after,
+html[data-style="minimal"] .app-shell::before, html[data-style="minimal"] .app-shell::after { display: none !important; }
+html[data-style="minimal"] .sidebar { background: #fff !important; border-right: 1px solid #e4e4e1 !important; box-shadow: none !important; background-image: none !important; }
+html[data-style="minimal"] .panel,
+html[data-style="minimal"] .stat-card,
+html[data-style="minimal"] .metric-card,
+html[data-style="minimal"] .settings-panel,
+html[data-style="minimal"] .drop-zone,
+html[data-style="minimal"] .modal,
+html[data-style="minimal"] .login-panel { background: #fff !important; border: 1px solid #e4e4e1 !important; border-radius: 8px !important; box-shadow: none !important; background-image: none !important; backdrop-filter: none !important; }
+html[data-style="minimal"] .panel { padding: 24px !important; }
+html[data-style="minimal"] .btn-primary { background: #18181b !important; color: #fff !important; border: 1px solid #18181b !important; border-radius: 6px !important; box-shadow: none !important; background-image: none !important; }
+html[data-style="minimal"] .btn-primary:hover { background: #333 !important; }
+html[data-style="minimal"] h1, html[data-style="minimal"] h2 { letter-spacing: -.025em !important; font-weight: 650 !important; }
+html[data-style="minimal"] .panel-heading { border-bottom: 1px solid #eeeeec !important; padding-bottom: 16px !important; margin-bottom: 18px !important; }
+html[data-style="minimal"] .brand-symbol, html[data-style="minimal"] .stat-card::before,
+html[data-style="minimal"] .panel::before, html[data-style="minimal"] .panel::after { box-shadow: none !important; background-image: none !important; }
+
+/* --------------------------------------------------------------------------
+   2. RETRO — warm paper, ink rules, serif headings, tactile print character
+   -------------------------------------------------------------------------- */
+html[data-style="retro"] {
+  --bg: #f3e7cf; --bg-alt: #eddfc2; --sidebar: #3f3122; --panel: #fff8e8;
+  --panel-2: #fff3d9; --panel-3: #eddfc2; --border: #3f3122; --border-soft: #d8c5a2;
+  --text: #2c2115; --muted: #6f5b41; --subtle: #8a7354; --teal: #b4531a;
+  --accent-bright: #d96f32; --red: #a63a2a; --amber: #a16207; --blue: #35597a;
+  --purple: #6d4b7a; --green: #3f6b3a; --style-radius: 10px;
+  --style-shadow: 4px 4px 0 #3f3122; --style-font: Georgia, "Times New Roman", serif;
+  color-scheme: light;
+}
+html[data-style="retro"] body,
+html[data-style="retro"] .app-shell,
+html[data-style="retro"] .content-scroll { background: #f3e7cf !important; color: #2c2115 !important; font-family: Georgia, serif !important; }
+html[data-style="retro"] body::before, html[data-style="retro"] body::after,
+html[data-style="retro"] .app-shell::before, html[data-style="retro"] .app-shell::after { display: none !important; }
+html[data-style="retro"] .sidebar { background: #3f3122 !important; border-right: 2px solid #2c2115 !important; background-image: none !important; box-shadow: none !important; }
+html[data-style="retro"] .sidebar, html[data-style="retro"] .sidebar * { font-family: Georgia, serif !important; }
+html[data-style="retro"] .panel,
+html[data-style="retro"] .stat-card,
+html[data-style="retro"] .metric-card,
+html[data-style="retro"] .settings-panel,
+html[data-style="retro"] .drop-zone,
+html[data-style="retro"] .modal,
+html[data-style="retro"] .login-panel { background: #fff8e8 !important; color: #2c2115 !important; border: 2px solid #3f3122 !important; border-radius: 10px !important; box-shadow: 4px 4px 0 #3f3122 !important; background-image: none !important; backdrop-filter: none !important; }
+html[data-style="retro"] .panel { padding: 26px !important; }
+html[data-style="retro"] h1, html[data-style="retro"] h2,
+html[data-style="retro"] .page-title, html[data-style="retro"] .panel-heading h2 { font-family: Georgia, serif !important; font-weight: 700 !important; letter-spacing: -.02em !important; }
+html[data-style="retro"] .btn-primary { background: #b4531a !important; color: #fff8e8 !important; border: 2px solid #3f3122 !important; border-radius: 8px !important; box-shadow: 3px 3px 0 #3f3122 !important; background-image: none !important; font-family: Georgia, serif !important; }
+html[data-style="retro"] .btn-primary:hover { transform: translate(-1px,-1px) !important; box-shadow: 4px 4px 0 #3f3122 !important; }
+html[data-style="retro"] .panel-heading { border-bottom: 2px solid #3f3122 !important; padding-bottom: 14px !important; }
+html[data-style="retro"] .brand-word { font-family: Georgia, serif !important; color: #fff8e8 !important; }
+html[data-style="retro"] .brand-word > span { color: #e9a06a !important; }
+
+/* --------------------------------------------------------------------------
+   3. BLAK — true black, square geometry, mono metadata, one signal accent
+   -------------------------------------------------------------------------- */
+html[data-style="blak"] {
+  --bg: #000; --bg-alt: #0a0a0a; --sidebar: #050505; --panel: #0d0d0d;
+  --panel-2: #141414; --panel-3: #1c1c1c; --border: #2a2a2a; --border-soft: #1f1f1f;
+  --text: #fafafa; --muted: #a3a3a3; --subtle: #737373; --teal: #c8f542;
+  --accent-bright: #d9ff66; --red: #ff5c5c; --amber: #ffd166; --blue: #7dd3fc;
+  --purple: #c084fc; --green: #4ade80; --style-radius: 0; --style-shadow: none;
+  --style-font: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  color-scheme: dark;
+}
+html[data-style="blak"] body,
+html[data-style="blak"] .app-shell,
+html[data-style="blak"] .content-scroll { background: #000 !important; color: #fafafa !important; }
+html[data-style="blak"] body::before, html[data-style="blak"] body::after,
+html[data-style="blak"] .app-shell::before, html[data-style="blak"] .app-shell::after { display: none !important; }
+html[data-style="blak"] .sidebar { background: #050505 !important; border-right: 1px solid #222 !important; background-image: none !important; box-shadow: none !important; }
+html[data-style="blak"] .panel,
+html[data-style="blak"] .stat-card,
+html[data-style="blak"] .metric-card,
+html[data-style="blak"] .settings-panel,
+html[data-style="blak"] .drop-zone,
+html[data-style="blak"] .modal,
+html[data-style="blak"] .login-panel { background: #0d0d0d !important; color: #fafafa !important; border: 1px solid #2a2a2a !important; border-radius: 0 !important; box-shadow: none !important; background-image: none !important; backdrop-filter: none !important; }
+html[data-style="blak"] .panel { padding: 26px !important; }
+html[data-style="blak"] .panel-heading,
+html[data-style="blak"] .page-title,
+html[data-style="blak"] .brand-word small,
+html[data-style="blak"] .nav-section-label { font-family: ui-monospace, Menlo, monospace !important; text-transform: uppercase !important; letter-spacing: .12em !important; }
+html[data-style="blak"] h1, html[data-style="blak"] h2 { font-weight: 750 !important; letter-spacing: -.04em !important; }
+html[data-style="blak"] .btn-primary { background: #c8f542 !important; color: #000 !important; border: 1px solid #c8f542 !important; border-radius: 0 !important; box-shadow: none !important; background-image: none !important; font-family: ui-monospace, Menlo, monospace !important; text-transform: uppercase !important; letter-spacing: .06em !important; }
+html[data-style="blak"] .nav-item.active { border-left: 3px solid #c8f542 !important; background: #101010 !important; color: #c8f542 !important; }
+html[data-style="blak"] .brand-symbol { border-radius: 0 !important; border-color: #c8f542 !important; background: #000 !important; }
+html[data-style="blak"] .brand-word > span { color: #c8f542 !important; }
+
+/* --------------------------------------------------------------------------
+   4. CLAY — soft inflated tactile surfaces; no neon, no glass
+   -------------------------------------------------------------------------- */
+html[data-style="clay"] {
+  --bg: #efe7fb; --bg-alt: #e7dcf7; --sidebar: #f6f1ff; --panel: #f6f1ff;
+  --panel-2: #efe7fb; --panel-3: #e2d5f5; --border: #d9c9f0; --border-soft: #e6dbf6;
+  --text: #35264a; --muted: #6e5b82; --subtle: #8b78a1; --teal: #6942c1;
+  --accent-bright: #7b5bd6; --red: #c2416c; --amber: #a16207; --blue: #4f46e5;
+  --purple: #7b5bd6; --green: #2f855a; --style-radius: 28px;
+  --style-shadow: 10px 10px 22px #d5c5ec, -8px -8px 18px #ffffff, inset 2px 2px 5px #ffffff, inset -3px -3px 7px #dccdf0;
+  --style-font: "Nunito", "Segoe UI", Arial, sans-serif; color-scheme: light;
+}
+html[data-style="clay"] body,
+html[data-style="clay"] .app-shell,
+html[data-style="clay"] .content-scroll { background: #efe7fb !important; color: #35264a !important; font-family: "Nunito", "Segoe UI", Arial, sans-serif !important; }
+html[data-style="clay"] body::before, html[data-style="clay"] body::after,
+html[data-style="clay"] .app-shell::before, html[data-style="clay"] .app-shell::after { display: none !important; }
+html[data-style="clay"] .sidebar { background: #f6f1ff !important; border-right: none !important; box-shadow: 12px 0 28px #d9c9f0 !important; background-image: none !important; }
+html[data-style="clay"] .panel,
+html[data-style="clay"] .stat-card,
+html[data-style="clay"] .metric-card,
+html[data-style="clay"] .settings-panel,
+html[data-style="clay"] .drop-zone,
+html[data-style="clay"] .modal,
+html[data-style="clay"] .login-panel { background: #f6f1ff !important; color: #35264a !important; border: none !important; border-radius: 28px !important; box-shadow: 10px 10px 22px #d5c5ec, -8px -8px 18px #fff, inset 2px 2px 5px #fff, inset -3px -3px 7px #dccdf0 !important; background-image: none !important; backdrop-filter: none !important; }
+html[data-style="clay"] .panel { padding: 30px !important; }
+html[data-style="clay"] h1, html[data-style="clay"] h2 { font-weight: 800 !important; letter-spacing: -.02em !important; }
+html[data-style="clay"] .btn-primary { background: #7b5bd6 !important; color: #fff !important; border: none !important; border-radius: 18px !important; box-shadow: 5px 6px 14px #b9a3e2, inset 2px 2px 4px #ffffff70, inset -3px -3px 7px #5b3bb0 !important; background-image: none !important; }
+html[data-style="clay"] input, html[data-style="clay"] select, html[data-style="clay"] textarea { border: none !important; border-radius: 16px !important; box-shadow: inset 4px 4px 8px #ddd0f0, inset -3px -3px 7px #fff !important; }
+html[data-style="clay"] .brand-symbol { border-radius: 16px !important; border: none !important; background: #7b5bd6 !important; box-shadow: inset 2px 2px 5px #ffffff60, inset -3px -3px 7px #5b3bb0 !important; }
+html[data-style="clay"] .brand-word { color: #35264a !important; }
+html[data-style="clay"] .brand-word > span { color: #6942c1 !important; }
+
+/* --------------------------------------------------------------------------
+   5. BENTO — modular dashboard: real grid, varied card spans, firm metrics
+   -------------------------------------------------------------------------- */
+html[data-style="bento"] {
+  --bg: #eceef0; --bg-alt: #e3e6e9; --sidebar: #ffffff; --panel: #ffffff;
+  --panel-2: #f7f8f9; --panel-3: #eceef0; --border: #d8dce0; --border-soft: #e8eaed;
+  --text: #17191c; --muted: #5f656e; --subtle: #7b828b; --teal: #245ed6;
+  --accent-bright: #3b76ff; --red: #d92d20; --amber: #b54708; --blue: #245ed6;
+  --purple: #6938ef; --green: #067647; --style-radius: 22px; --style-shadow: 0 1px 2px #1018280a;
+  --style-font: Inter, "Helvetica Neue", Arial, sans-serif; color-scheme: light;
+}
+html[data-style="bento"] body,
+html[data-style="bento"] .app-shell,
+html[data-style="bento"] .content-scroll { background: #eceef0 !important; color: #17191c !important; }
+html[data-style="bento"] body::before, html[data-style="bento"] body::after,
+html[data-style="bento"] .app-shell::before, html[data-style="bento"] .app-shell::after { display: none !important; }
+html[data-style="bento"] .sidebar { background: #fff !important; border-right: 1px solid #d8dce0 !important; background-image: none !important; box-shadow: none !important; }
+html[data-style="bento"] .panel,
+html[data-style="bento"] .stat-card,
+html[data-style="bento"] .metric-card,
+html[data-style="bento"] .settings-panel,
+html[data-style="bento"] .drop-zone,
+html[data-style="bento"] .modal,
+html[data-style="bento"] .login-panel { background: #fff !important; color: #17191c !important; border: 1px solid #d8dce0 !important; border-radius: 22px !important; box-shadow: 0 1px 2px #1018280a !important; background-image: none !important; backdrop-filter: none !important; }
+html[data-style="bento"] .panel { padding: 24px !important; }
+html[data-style="bento"] .dashboard-grid { display: grid !important; grid-template-columns: repeat(3, minmax(0, 1fr)) !important; gap: 16px !important; align-items: stretch !important; }
+html[data-style="bento"] .dashboard-grid > :first-child { grid-column: span 2 !important; }
+html[data-style="bento"] .stats-grid { display: grid !important; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)) !important; gap: 16px !important; }
+html[data-style="bento"] .stat-card { min-height: 154px !important; padding: 24px !important; display: flex !important; flex-direction: column !important; justify-content: space-between !important; }
+html[data-style="bento"] .stat-value, html[data-style="bento"] .metric-value { font-size: 34px !important; font-weight: 750 !important; letter-spacing: -.045em !important; line-height: 1 !important; }
+html[data-style="bento"] .btn-primary { background: #245ed6 !important; color: #fff !important; border: none !important; border-radius: 14px !important; box-shadow: none !important; background-image: none !important; }
+html[data-style="bento"] .panel-heading { border-bottom: 1px solid #e8eaed !important; padding-bottom: 16px !important; margin-bottom: 18px !important; }
+html[data-style="bento"] .brand-symbol { border-radius: 12px !important; background: #245ed6 !important; border-color: #245ed6 !important; }
+html[data-style="bento"] .brand-word > span { color: #245ed6 !important; }
+@media (max-width: 900px) {
+  html[data-style="bento"] .dashboard-grid { grid-template-columns: 1fr !important; }
+  html[data-style="bento"] .dashboard-grid > :first-child { grid-column: auto !important; }
+}
+
+/* --------------------------------------------------------------------------
+   6. EDITORIAL — ivory page, serif display, rules, magazine hierarchy
+   -------------------------------------------------------------------------- */
+html[data-style="editorial"] {
+  --bg: #fbf7ef; --bg-alt: #f3ede1; --sidebar: #221d1a; --panel: #fffdf8;
+  --panel-2: #f8f3e9; --panel-3: #f3ede1; --border: #d9cfbe; --border-soft: #e8e0d1;
+  --text: #221d1a; --muted: #6f6459; --subtle: #8b7f72; --teal: #9f1239;
+  --accent-bright: #be123c; --red: #9f1239; --amber: #92400e; --blue: #1e40af;
+  --purple: #6d28d9; --green: #166534; --style-radius: 0; --style-shadow: none;
+  --style-font: Georgia, "Times New Roman", serif; color-scheme: light;
+}
+html[data-style="editorial"] body,
+html[data-style="editorial"] .app-shell,
+html[data-style="editorial"] .content-scroll { background: #fbf7ef !important; color: #221d1a !important; font-family: Georgia, serif !important; }
+html[data-style="editorial"] body::before, html[data-style="editorial"] body::after,
+html[data-style="editorial"] .app-shell::before, html[data-style="editorial"] .app-shell::after { display: none !important; }
+html[data-style="editorial"] .sidebar { background: #221d1a !important; border-right: none !important; background-image: none !important; box-shadow: none !important; }
+html[data-style="editorial"] .sidebar * { font-family: Georgia, serif !important; }
+html[data-style="editorial"] .panel,
+html[data-style="editorial"] .stat-card,
+html[data-style="editorial"] .metric-card,
+html[data-style="editorial"] .settings-panel,
+html[data-style="editorial"] .drop-zone,
+html[data-style="editorial"] .modal,
+html[data-style="editorial"] .login-panel { background: #fffdf8 !important; color: #221d1a !important; border: none !important; border-top: 3px solid #221d1a !important; border-bottom: 1px solid #d9cfbe !important; border-radius: 0 !important; box-shadow: none !important; background-image: none !important; backdrop-filter: none !important; }
+html[data-style="editorial"] .panel { padding: 32px !important; }
+html[data-style="editorial"] h1 { font-size: 42px !important; font-weight: 700 !important; letter-spacing: -.03em !important; line-height: 1.05 !important; }
+html[data-style="editorial"] h2, html[data-style="editorial"] .panel-heading h2 { font-family: Georgia, serif !important; font-weight: 700 !important; }
+html[data-style="editorial"] .panel-heading { border-top: 3px solid #221d1a !important; border-bottom: none !important; padding-top: 18px !important; margin-bottom: 22px !important; }
+html[data-style="editorial"] .btn-primary { background: #9f1239 !important; color: #fffdf8 !important; border: none !important; border-radius: 0 !important; box-shadow: none !important; background-image: none !important; font-family: Georgia, serif !important; }
+html[data-style="editorial"] .brand-word { font-family: Georgia, serif !important; color: #fbf7ef !important; }
+html[data-style="editorial"] .brand-word > span { color: #e5a3b4 !important; }
+
+/* --------------------------------------------------------------------------
+   7. TERMINAL — console workspace, monospace, green signal, square surfaces
+   -------------------------------------------------------------------------- */
+html[data-style="terminal"] {
+  --bg: #07100a; --bg-alt: #0a150e; --sidebar: #0a150e; --panel: #0f1d13;
+  --panel-2: #122417; --panel-3: #173020; --border: #26402e; --border-soft: #1b3123;
+  --text: #d4f7d9; --muted: #8fb797; --subtle: #6d9375; --teal: #4ade80;
+  --accent-bright: #86efac; --red: #f87171; --amber: #fbbf24; --blue: #60a5fa;
+  --purple: #c084fc; --green: #4ade80; --style-radius: 0; --style-shadow: none;
+  --style-font: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  color-scheme: dark;
+}
+html[data-style="terminal"] body,
+html[data-style="terminal"] .app-shell,
+html[data-style="terminal"] .content-scroll { background: #07100a !important; color: #d4f7d9 !important; font-family: ui-monospace, Menlo, monospace !important; }
+html[data-style="terminal"] body::before, html[data-style="terminal"] body::after,
+html[data-style="terminal"] .app-shell::before, html[data-style="terminal"] .app-shell::after { display: none !important; }
+html[data-style="terminal"] .sidebar { background: #0a150e !important; border-right: 1px solid #26402e !important; background-image: none !important; box-shadow: none !important; }
+html[data-style="terminal"] .sidebar * { font-family: ui-monospace, Menlo, monospace !important; }
+html[data-style="terminal"] .panel,
+html[data-style="terminal"] .stat-card,
+html[data-style="terminal"] .metric-card,
+html[data-style="terminal"] .settings-panel,
+html[data-style="terminal"] .drop-zone,
+html[data-style="terminal"] .modal,
+html[data-style="terminal"] .login-panel { background: #0f1d13 !important; color: #d4f7d9 !important; border: 1px solid #26402e !important; border-radius: 0 !important; box-shadow: none !important; background-image: none !important; backdrop-filter: none !important; }
+html[data-style="terminal"] .panel { padding: 24px !important; }
+html[data-style="terminal"] h1::before { content: "> "; color: #4ade80 !important; }
+html[data-style="terminal"] h1, html[data-style="terminal"] h2,
+html[data-style="terminal"] .panel-heading h2 { font-family: ui-monospace, Menlo, monospace !important; font-weight: 600 !important; letter-spacing: -.01em !important; }
+html[data-style="terminal"] .panel-heading,
+html[data-style="terminal"] .page-title,
+html[data-style="terminal"] .nav-section-label,
+html[data-style="terminal"] .brand-word small { text-transform: uppercase !important; letter-spacing: .1em !important; font-size: 10px !important; }
+html[data-style="terminal"] .btn-primary { background: #4ade80 !important; color: #07100a !important; border: 1px solid #4ade80 !important; border-radius: 0 !important; box-shadow: none !important; background-image: none !important; font-family: ui-monospace, Menlo, monospace !important; }
+html[data-style="terminal"] .nav-item.active { background: #122417 !important; color: #4ade80 !important; border-left: 2px solid #4ade80 !important; }
+html[data-style="terminal"] .brand-symbol { border-radius: 0 !important; border-color: #4ade80 !important; background: #07100a !important; }
+html[data-style="terminal"] .brand-word > span { color: #4ade80 !important; }
+
+/* --------------------------------------------------------------------------
+   Shared component corrections for the seven new systems
+   Neo-Brutalism keeps its own established stylesheet.
+   -------------------------------------------------------------------------- */
+html[data-style="minimal"], html[data-style="retro"], html[data-style="blak"],
+html[data-style="clay"], html[data-style="bento"], html[data-style="editorial"],
+html[data-style="terminal"] {
+  --glass-line: transparent; --glass-shadow: none;
+}
+html[data-style="minimal"] .topbar, html[data-style="retro"] .topbar,
+html[data-style="blak"] .topbar, html[data-style="clay"] .topbar,
+html[data-style="bento"] .topbar, html[data-style="editorial"] .topbar,
+html[data-style="terminal"] .topbar {
+  background: transparent !important; background-image: none !important; box-shadow: none !important; border-bottom: 1px solid var(--border) !important;
+}
+html[data-style="minimal"] .nav-item, html[data-style="retro"] .nav-item,
+html[data-style="blak"] .nav-item, html[data-style="clay"] .nav-item,
+html[data-style="bento"] .nav-item, html[data-style="editorial"] .nav-item,
+html[data-style="terminal"] .nav-item {
+  background: transparent !important; background-image: none !important; box-shadow: none !important; color: var(--text) !important; border-radius: var(--style-radius) !important;
+}
+html[data-style="minimal"] .nav-item:hover, html[data-style="retro"] .nav-item:hover,
+html[data-style="blak"] .nav-item:hover, html[data-style="clay"] .nav-item:hover,
+html[data-style="bento"] .nav-item:hover, html[data-style="editorial"] .nav-item:hover,
+html[data-style="terminal"] .nav-item:hover { background: var(--panel-2) !important; }
+html[data-style="minimal"] input, html[data-style="minimal"] select, html[data-style="minimal"] textarea,
+html[data-style="retro"] input, html[data-style="retro"] select, html[data-style="retro"] textarea,
+html[data-style="blak"] input, html[data-style="blak"] select, html[data-style="blak"] textarea,
+html[data-style="bento"] input, html[data-style="bento"] select, html[data-style="bento"] textarea,
+html[data-style="editorial"] input, html[data-style="editorial"] select, html[data-style="editorial"] textarea,
+html[data-style="terminal"] input, html[data-style="terminal"] select, html[data-style="terminal"] textarea {
+  background: var(--panel) !important; color: var(--text) !important; border: 1px solid var(--border) !important; border-radius: var(--style-radius) !important; box-shadow: none !important; background-image: none !important;
+}
+html[data-style="minimal"] .btn-secondary, html[data-style="retro"] .btn-secondary,
+html[data-style="blak"] .btn-secondary, html[data-style="clay"] .btn-secondary,
+html[data-style="bento"] .btn-secondary, html[data-style="editorial"] .btn-secondary,
+html[data-style="terminal"] .btn-secondary {
+  background: transparent !important; color: var(--text) !important; border: 1px solid var(--border) !important; border-radius: var(--style-radius) !important; box-shadow: none !important; background-image: none !important;
+}
+html[data-style="minimal"] .quiet-badge, html[data-style="retro"] .quiet-badge,
+html[data-style="blak"] .quiet-badge, html[data-style="clay"] .quiet-badge,
+html[data-style="bento"] .quiet-badge, html[data-style="editorial"] .quiet-badge,
+html[data-style="terminal"] .quiet-badge {
+  background: var(--panel-2) !important; color: var(--muted) !important; border: 1px solid var(--border) !important; border-radius: calc(var(--style-radius) * .55) !important; box-shadow: none !important;
+}
+
+/* Style picker must remain legible in every system */
+html[data-style="minimal"] .style-options .theme-option,
+html[data-style="retro"] .style-options .theme-option,
+html[data-style="blak"] .style-options .theme-option,
+html[data-style="clay"] .style-options .theme-option,
+html[data-style="bento"] .style-options .theme-option,
+html[data-style="editorial"] .style-options .theme-option,
+html[data-style="terminal"] .style-options .theme-option {
+  background: var(--panel) !important; color: var(--text) !important; border: 1px solid var(--border) !important; border-radius: min(18px, var(--style-radius)) !important; box-shadow: var(--style-shadow) !important;
+}
+html[data-style="minimal"] .style-options .theme-option.selected,
+html[data-style="retro"] .style-options .theme-option.selected,
+html[data-style="blak"] .style-options .theme-option.selected,
+html[data-style="clay"] .style-options .theme-option.selected,
+html[data-style="bento"] .style-options .theme-option.selected,
+html[data-style="editorial"] .style-options .theme-option.selected,
+html[data-style="terminal"] .style-options .theme-option.selected {
+  outline: 3px solid var(--teal) !important; outline-offset: 2px !important;
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  html[data-style] *, html[data-style] *::before, html[data-style] *::after {
+    animation-duration: .01ms !important; animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important; scroll-behavior: auto !important;
+  }
+}

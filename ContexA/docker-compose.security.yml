@@ -1,0 +1,11 @@
+# Optional local security overlay. Start with:
+# docker compose -f docker-compose.yml -f docker-compose.security.yml --profile security up --build
+services:
+  backend:
+    environment:
+      UPLOAD_SCAN_MODE: clamd
+      CLAMD_HOST: clamav
+      CLAMD_PORT: 3310
+    depends_on:
+      clamav:
+        condition: service_healthy

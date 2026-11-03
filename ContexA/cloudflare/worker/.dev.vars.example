@@ -1,0 +1,8 @@
+# Copy to .dev.vars for local Wrangler development. Never commit real secrets.
+API_ORIGIN=https://your-fastapi-origin.example.com
+
+# Must match backend CLOUDFLARE_ORIGIN_SHARED_SECRET when origin locking is enabled.
+ORIGIN_SHARED_SECRET=replace-with-the-same-long-random-secret
+
+# Used by the Worker's six-hour scheduled source-monitoring invocation.
+TRUTH_DRIFT_CRON_TOKEN=replace-with-the-same-backend-scheduler-token

@@ -1,0 +1,8 @@
+aws_region           = "ap-south-1"
+evidence_bucket_name = "replace-with-globally-unique-contexa-evidence-bucket"
+retention_days       = 365
+object_lock_mode     = "GOVERNANCE"
+ecs_task_role_name   = "ContexAApiTaskRole"
+kms_key_administrator_arns = [
+  "arn:aws:iam::123456789012:role/ContexABreakGlassKeyAdmin"
+]
